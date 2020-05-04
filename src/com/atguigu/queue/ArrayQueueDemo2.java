@@ -2,10 +2,12 @@ package com.atguigu.queue;
 
 import java.util.Scanner;
 
-public class ArrayQueueDemo {
+import javax.print.attribute.Size2DSyntax;
+
+public class ArrayQueueDemo2 {
 
 	public static void main(String[] args) {
-		ArrayQueue queue = new ArrayQueue(3);
+		ArrayQueue2 queue = new ArrayQueue2(3);
 		Scanner sc = new Scanner(System.in);
 		char key = ' ';//接受用户输入
 		boolean flag = true;
@@ -44,24 +46,22 @@ public class ArrayQueueDemo {
 
 }
 
-//使用数组模拟队列
-class ArrayQueue{
+//使用数组模拟环形队列
+class ArrayQueue2{
 	private int maxSize;//数组最大容量
-	private int front;//队列头
-	private int rear;//队列尾
+	private int front;//队列头：指向环形队列的第一个数的位置。初始化为0
+	private int rear;//队列尾：指向环形队列倒数第二个位置。初始化为0
 	private int[] arr;//该数组用于存放数据，模拟队列
 	
 	//创建队列的构造器
-	public ArrayQueue(int arrMaxSize) {
+	public ArrayQueue2(int arrMaxSize) {
 		maxSize = arrMaxSize;
 		arr =new int[maxSize];
-		front = -1;//指向队列头部，分析出front是指向队列头的前一个位置
-		rear = -1;//指向队列尾部，指向队列尾的数据（即就是队列最后一个数据）
 	}
 	
-	//判断队列是否满
+	//判断队列是否满(rear+1)%maxSize==front
 	public boolean isFull() {
-		return rear == maxSize - 1;
+		return (rear + 1) % maxSize == front;
 	}
 	
 	//判断队列是否空
@@ -74,8 +74,9 @@ class ArrayQueue{
 		if(isFull()) {
 			System.out.println("队列已满");
 		}else {
-			rear++;
+			
 			arr[rear] = num;
+			rear = (rear + 1) % maxSize;
 		}
 		
 	}
@@ -83,10 +84,12 @@ class ArrayQueue{
 	//取出数据出队列
 	public void getQueue() {
 		if (isEmpty()) {
-			throw new RuntimeException("队列为空");
+			System.out.println("队列为空，没有数据");
 		}else {
-			front++;
-			System.out.println(arr[front]);
+			//先将front对应的值保存起来，然后将front后移，考虑取模，返回临时变量
+			int value = arr[front];
+			front = (front + 1) % maxSize;
+			System.out.println(value);
 		}
 	}
 	
@@ -96,8 +99,10 @@ class ArrayQueue{
 		if (isEmpty()) {
 			System.out.println("队列为空，没有数据");
 		}
-		for (int i = 0; i < arr.length; i++) {
-			System.out.println(i+"----"+arr[i]);
+		int count = (rear + maxSize - front) % maxSize;
+		for (int i = front; i < front + count; i++) {
+			System.out.println("arr["+i+"]="+arr[i]);
+			//System.out.printf("arr[%d]=%\nd",i %maxSize,arr[i %maxSize]);
 		}
 	}
 	
@@ -106,7 +111,7 @@ class ArrayQueue{
 		if (isEmpty()) {
 			System.out.println("队列为空");;
 		}else {
-			System.out.println(arr[front+1]);
+			System.out.println(arr[front]);
 		}
 		
 	}
