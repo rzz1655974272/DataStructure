@@ -1,5 +1,9 @@
 package com.atguigu.linklist;
-
+/**
+ * ≤Â»Î¡¥±ÌŒ≤≤ø
+ * @author 16559
+ *
+ */
 public class SingleLinkListDemo {
 
 	public static void main(String[] args) {
