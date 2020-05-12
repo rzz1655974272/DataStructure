@@ -1,4 +1,7 @@
 package com.atguigu.linklist;
+
+import java.util.Stack;
+
 /**
  * 根据编号插入
  * @author 16559
@@ -8,20 +11,39 @@ public class SingleLinkListDemo3 {
 
 	public static void main(String[] args) {
 		HeroNode hero1 = new HeroNode(1, "qqq", "q1");
-		HeroNode hero2 = new HeroNode(2, "www", "w1");
-		HeroNode hero3 = new HeroNode(3, "eee", "e2");
-		HeroNode hero4 = new HeroNode(4, "rrr", "r3");
-		HeroNode hero5 = new HeroNode(5, "eeeee", "e3");
+		HeroNode hero2 = new HeroNode(3, "www", "w2");
+		HeroNode hero3 = new HeroNode(5, "eee", "e3");
+		HeroNode hero4 = new HeroNode(21, "rrr", "r4");
 		SingleLinkList2 list = new SingleLinkList2();
-		
 		list.add(hero1);
 		list.add(hero2);
 		list.add(hero3);
 		list.add(hero4);
 		list.show();
-		list.getLength();
-		list.reversal();
-		list.show();
+		
+		System.out.println("----------------------");
+		
+		HeroNode hero11 = new HeroNode(2, "aaa", "a1");
+		HeroNode hero21 = new HeroNode(4, "sss", "s2");
+		HeroNode hero31 = new HeroNode(8, "ddd", "d3");
+		SingleLinkList2 list1 = new SingleLinkList2();
+		list1.add(hero11);
+		list1.add(hero21);
+		list1.add(hero31);
+		list1.show();
+		System.out.println("合并两个单链表");
+		SingleLinkList2 list2 = list.merge(list1);
+		System.out.println("打印");
+		list2.show();
+		
+		
+		
+		
+//		System.out.println("逆序打印");
+//		list.reversalPrint();
+//		list.getLength();
+//		list2.reversal();
+//		list2.show();
 //		list.selectKNode(2);
 //		System.out.println("修改后");
 //		HeroNode hero5 = new HeroNode(3, "eeeee", "e3");
@@ -39,6 +61,54 @@ class SingleLinkList2{
 	//初始化头节点
 	private HeroNode head = new HeroNode(0, "", "");
 	
+	//合并两个有序列表
+	public SingleLinkList2 merge(SingleLinkList2 list1) {
+		HeroNode temp = head;
+		int size = 0;
+		
+		while(true) {
+			if (temp.next == null) {
+				break;
+			}else {
+				size++;
+				temp = temp.next;
+//				System.out.println(temp);
+			}
+		}
+		return list1;
+	}
+	
+	//逆序打印单链表，使用栈stack
+	public void reversalPrint() {
+		HeroNode temp = head;
+		if (temp.next==null) {
+			System.out.println("单链表为空");
+			return;
+		}
+		
+		int size = 0;	
+		while(true) {
+			if (temp.next == null) {
+				break;
+			}else {
+				size++;
+				temp = temp.next;
+			}
+		}
+		
+		temp = head;
+		Stack<HeroNode> stack = new Stack<HeroNode>();
+		for (int i = 0; i < size; i++) {
+			temp = temp.next;
+			stack.add(temp);
+		}
+		
+		while (stack.size() > 0) {
+			System.out.println(stack.pop());
+		}
+	}
+	
+
 	//单链表的反转
 	public void reversal() {
 		HeroNode temp = head;
